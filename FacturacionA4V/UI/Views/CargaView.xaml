@@ -82,6 +82,12 @@
         <Button Content="Procesar"
                 Margin="0,12,0,0"
                 Command="{Binding ProcesarCommand}"/>
+
+        <TextBlock Text="✓ Compromisos cargados correctamente"
+                   Foreground="#4CAF50"
+                   FontWeight="SemiBold"
+                   Margin="0,8,0,0"
+                   Visibility="{Binding IsProcesado, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </StackPanel>
     </Grid>
 </UserControl>

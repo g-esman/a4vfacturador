@@ -216,6 +216,44 @@
     </Style>
 
     <!-- =====================================================
+         CALENDAR (popup del DatePicker)
+         ===================================================== -->
+    <Style TargetType="Calendar">
+        <Setter Property="Background"   Value="{DynamicResource AppSurfaceBrush}"/>
+        <Setter Property="Foreground"   Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="BorderBrush"  Value="{DynamicResource AppBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <Style TargetType="CalendarItem">
+        <Setter Property="Background"   Value="{DynamicResource AppSurfaceBrush}"/>
+        <Setter Property="Foreground"   Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="BorderBrush"  Value="{DynamicResource AppBorderBrush}"/>
+    </Style>
+
+    <Style TargetType="CalendarDayButton">
+        <Setter Property="Foreground"   Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="Background"   Value="Transparent"/>
+        <Setter Property="FontSize"     Value="{DynamicResource FontSizeBase}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="CalendarButton">
+        <Setter Property="Foreground"   Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="Background"   Value="Transparent"/>
+        <Setter Property="FontSize"     Value="{DynamicResource FontSizeBase}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- =====================================================
          BOTÓN
          ===================================================== -->
     <Style TargetType="Button">

@@ -3,11 +3,29 @@ using FacturacionA4V.UI.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace FacturacionA4V.UI.ViewModel;
 
 public sealed class ResultadosViewModel : ObservableObject
 {
+    private readonly DispatcherTimer _confirmTimer;
+
+    private string? _confirmacion;
+    public string? Confirmacion
+    {
+        get => _confirmacion;
+        private set { _confirmacion = value; OnPropertyChanged(); OnPropertyChanged(nameof(HayConfirmacion)); }
+    }
+    public bool HayConfirmacion => !string.IsNullOrEmpty(_confirmacion);
+
+    private void MostrarConfirmacion(string texto)
+    {
+        Confirmacion = texto;
+        _confirmTimer.Stop();
+        _confirmTimer.Start();
+    }
+
     public ObservableCollection<string> AuspiciantesDisponibles { get; } = [];
     public ObservableCollection<string> ProgramasDisponibles { get; } = [];
     public ObservableCollection<string> PeriodistasDisponibles { get; } = [];
@@ -125,6 +143,10 @@ public sealed class ResultadosViewModel : ObservableObject
     public ResultadosViewModel(IFacturacionRepository repo)
     {
         _repo = repo;
+
+        _confirmTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
+        _confirmTimer.Tick += (_, _) => { _confirmTimer.Stop(); Confirmacion = null; };
+
         FiltrarCommand = new RelayCommand(AplicarFiltros);
         AgregarFacturaCommand = new RelayCommand(AbrirAgregarFactura, PuedeAgregarFactura);
         AgregarPagoCommand = new RelayCommand(AbrirAgregarPago, PuedeAgregarPago);
@@ -166,6 +188,7 @@ public sealed class ResultadosViewModel : ObservableObject
 
         _repo.UpdatePago(updates);
         Cargar();
+        MostrarConfirmacion("✓ Pago agregado correctamente");
     }
 
     private bool PuedeAgregarPago()
@@ -203,6 +226,7 @@ public sealed class ResultadosViewModel : ObservableObject
 
         _repo.UpdateInformacionAdicional(updates);
         Cargar();
+        MostrarConfirmacion("✓ Información adicional guardada");
     }
 
     private bool PuedeAgregarFactura()
@@ -235,6 +259,7 @@ public sealed class ResultadosViewModel : ObservableObject
 
         _repo.UpdateFactura(updates);
         Cargar();
+        MostrarConfirmacion("✓ Factura agregada correctamente");
     }
 
     private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -275,6 +300,8 @@ public sealed class ResultadosViewModel : ObservableObject
 
         AplicarFiltros(); // maneja Filtrados + RecalcularTotales internamente
         ((RelayCommand)AgregarFacturaCommand).RaiseCanExecuteChanged();
+        ((RelayCommand)AgregarPagoCommand).RaiseCanExecuteChanged();
+        ((RelayCommand)AgregarInfoAdicionalCommand).RaiseCanExecuteChanged();
     }
 
     private void AplicarFiltros()
