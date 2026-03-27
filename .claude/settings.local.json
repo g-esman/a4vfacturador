@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /Users/gastonesman/projects/a4v -type f \\\\\\(-name *.cs -o -name *.xaml \\\\\\))",
+      "Bash(file:*)",
+      "Bash(git config:*)",
+      "Bash(dotnet --version)",
+      "Bash(git pull:*)",
+      "Bash(code:*)",
+      "Bash(open:*)",
+      "Bash(ls /Users/gastonesman/projects/a4v/*.sln)",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet sln:*)",
+      "Read(//usr/local/share/dotnet/**)",
+      "Read(//Users/gastonesman/.dotnet/**)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr:*)",
+      "Bash(git fetch:*)",
+      "Bash(git rebase:*)",
+      "Bash(git mv:*)"
+    ]
+  }
+}

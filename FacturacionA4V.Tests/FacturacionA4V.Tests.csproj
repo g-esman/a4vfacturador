@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FacturacionA4V.csproj" />
+    <ProjectReference Include="..\FacturacionA4V\FacturacionA4V.csproj" />
   </ItemGroup>
 
 </Project>
