@@ -2,10 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <Grid Background="{DynamicResource AppBackgroundBrush}">
     <StackPanel Margin="16" Width="300">
 
         <StackPanel>
-            <TextBlock Text="Auspiciante" FontSize="{StaticResource FontSizeSmall}" Opacity="0.7"/>
+            <TextBlock Text="Auspiciante" FontSize="{DynamicResource FontSizeSmall}" Opacity="0.7"/>
             <ComboBox
                 ItemsSource="{Binding Auspiciantes}"
                 SelectedItem="{Binding AuspicianteSeleccionado}"
@@ -82,4 +83,5 @@
                 Margin="0,12,0,0"
                 Command="{Binding ProcesarCommand}"/>
     </StackPanel>
+    </Grid>
 </UserControl>
