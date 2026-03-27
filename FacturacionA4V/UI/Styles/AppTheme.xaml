@@ -205,11 +205,7 @@
     </Style>
 
     <!-- =====================================================
-         DATEPICKER + CALENDAR
-         Estrategia: CalendarStyle con Template propio del Calendar.
-         Dentro del ControlTemplate.Resources definimos los estilos
-         implícitos para Day/CalendarButton, y referenciamos CalendarItem
-         por key explícito para saltear el StaticResource del tema Aero2.
+         DATEPICKER
          ===================================================== -->
     <Style TargetType="DatePicker">
         <Setter Property="FontSize"        Value="{DynamicResource FontSizeBase}"/>
@@ -220,156 +216,9 @@
         <Setter Property="CalendarStyle">
             <Setter.Value>
                 <Style TargetType="Calendar">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Calendar">
-                                <ControlTemplate.Resources>
-
-                                    <!-- CalendarItem con key explícito para bypasear el StaticResource del tema.
-                                         CalendarDayButton/CalendarButton/DayTitleTemplate van en los
-                                         ControlTemplate.Resources del CalendarItem (donde PopulateGrids los necesita). -->
-                                    <Style x:Key="AppCalendarItemStyle" TargetType="CalendarItem">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="CalendarItem">
-                                                    <ControlTemplate.Resources>
-
-                                                        <!-- Header de días de la semana -->
-                                                        <DataTemplate x:Key="DayTitleTemplate">
-                                                            <TextBlock Text="{Binding}"
-                                                                       FontSize="{DynamicResource FontSizeSmall}"
-                                                                       Foreground="{DynamicResource AppForegroundMutedBrush}"
-                                                                       HorizontalAlignment="Center"
-                                                                       Margin="0,2,0,4"/>
-                                                        </DataTemplate>
-
-                                                        <!-- Botón de día — PopulateGrids crea CalendarDayButton sin Style explícito,
-                                                             el lookup los encuentra en este scope -->
-                                                        <Style TargetType="CalendarDayButton">
-                                                            <Setter Property="MinWidth"  Value="32"/>
-                                                            <Setter Property="MinHeight" Value="26"/>
-                                                            <Setter Property="FontSize"  Value="{DynamicResource FontSizeBase}"/>
-                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                            <Setter Property="VerticalContentAlignment"   Value="Center"/>
-                                                            <Setter Property="Template">
-                                                                <Setter.Value>
-                                                                    <ControlTemplate TargetType="CalendarDayButton">
-                                                                        <Grid>
-                                                                            <Border x:Name="Bg" Background="Transparent" CornerRadius="2" Margin="1"/>
-                                                                            <Border x:Name="TodayBorder"
-                                                                                    BorderBrush="{DynamicResource AppBorderBrush}"
-                                                                                    BorderThickness="1" CornerRadius="2" Margin="1"
-                                                                                    Visibility="Collapsed"/>
-                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                                                              TextBlock.Foreground="{DynamicResource AppForegroundBrush}"/>
-                                                                        </Grid>
-                                                                        <ControlTemplate.Triggers>
-                                                                            <Trigger Property="IsToday" Value="True">
-                                                                                <Setter TargetName="TodayBorder" Property="Visibility" Value="Visible"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsSelected" Value="True">
-                                                                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource AppButtonBgBrush}"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource AppSurfaceAltBrush}"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                                <Setter Property="Opacity" Value="0.35"/>
-                                                                            </Trigger>
-                                                                        </ControlTemplate.Triggers>
-                                                                    </ControlTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Style>
-
-                                                        <!-- Botón de mes/año -->
-                                                        <Style TargetType="CalendarButton">
-                                                            <Setter Property="MinWidth"  Value="52"/>
-                                                            <Setter Property="MinHeight" Value="40"/>
-                                                            <Setter Property="FontSize"  Value="{DynamicResource FontSizeBase}"/>
-                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                            <Setter Property="VerticalContentAlignment"   Value="Center"/>
-                                                            <Setter Property="Template">
-                                                                <Setter.Value>
-                                                                    <ControlTemplate TargetType="CalendarButton">
-                                                                        <Grid>
-                                                                            <Border x:Name="Bg" Background="Transparent" CornerRadius="2" Margin="1"/>
-                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                                                              TextBlock.Foreground="{DynamicResource AppForegroundBrush}"/>
-                                                                        </Grid>
-                                                                        <ControlTemplate.Triggers>
-                                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource AppSurfaceAltBrush}"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                                <Setter Property="Opacity" Value="0.35"/>
-                                                                            </Trigger>
-                                                                        </ControlTemplate.Triggers>
-                                                                    </ControlTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Style>
-
-                                                    </ControlTemplate.Resources>
-
-                                                    <Grid x:Name="PART_Root">
-                                                        <Border Background="{DynamicResource AppSurfaceBrush}"
-                                                                BorderBrush="{DynamicResource AppBorderBrush}"
-                                                                BorderThickness="1"
-                                                                Padding="8,6">
-                                                            <Grid>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition Height="Auto"/>
-                                                                    <RowDefinition Height="Auto"/>
-                                                                </Grid.RowDefinitions>
-                                                                <Grid>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="28"/>
-                                                                        <ColumnDefinition Width="*"/>
-                                                                        <ColumnDefinition Width="28"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Button x:Name="PART_PreviousButton"
-                                                                            Content="◀" FontSize="9"
-                                                                            Height="24" Width="24"
-                                                                            Foreground="{DynamicResource AppForegroundBrush}"/>
-                                                                    <Button x:Name="PART_HeaderButton"
-                                                                            Grid.Column="1"
-                                                                            HorizontalAlignment="Center"
-                                                                            FontWeight="SemiBold" Height="24"
-                                                                            Foreground="{DynamicResource AppForegroundBrush}"/>
-                                                                    <Button x:Name="PART_NextButton"
-                                                                            Grid.Column="2"
-                                                                            Content="▶" FontSize="9"
-                                                                            Height="24" Width="24"
-                                                                            Foreground="{DynamicResource AppForegroundBrush}"/>
-                                                                </Grid>
-                                                                <Grid x:Name="PART_MonthView" Grid.Row="1" Margin="0,4,0,0"/>
-                                                                <Grid x:Name="PART_YearView"  Grid.Row="1" Margin="0,4,0,0" Visibility="Hidden"/>
-                                                            </Grid>
-                                                        </Border>
-                                                        <Rectangle x:Name="PART_DisabledVisual"
-                                                                   Fill="{DynamicResource AppSurfaceBrush}"
-                                                                   Opacity="0.6" IsHitTestVisible="False"
-                                                                   Visibility="Collapsed"/>
-                                                    </Grid>
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsEnabled" Value="False">
-                                                            <Setter TargetName="PART_DisabledVisual" Property="Visibility" Value="Visible"/>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-
-                                </ControlTemplate.Resources>
-
-                                <CalendarItem x:Name="PART_CalendarItem"
-                                              Style="{StaticResource AppCalendarItemStyle}"/>
-
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="Background"  Value="{DynamicResource AppSurfaceBrush}"/>
+                    <Setter Property="Foreground"  Value="{DynamicResource AppForegroundBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}"/>
                 </Style>
             </Setter.Value>
         </Setter>
