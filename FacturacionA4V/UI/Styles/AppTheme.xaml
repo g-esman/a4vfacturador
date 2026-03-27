@@ -220,21 +220,92 @@
         <Setter Property="CalendarStyle">
             <Setter.Value>
                 <Style TargetType="Calendar">
+
+                    <!-- CalendarDayButtonStyle y CalendarButtonStyle son propiedades de Calendar
+                         que aplica directamente a cada botón que crea — sin depender de resource lookup -->
+                    <Setter Property="CalendarDayButtonStyle">
+                        <Setter.Value>
+                            <Style TargetType="CalendarDayButton">
+                                <Setter Property="MinWidth"  Value="32"/>
+                                <Setter Property="MinHeight" Value="26"/>
+                                <Setter Property="FontSize"  Value="{DynamicResource FontSizeBase}"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalContentAlignment"   Value="Center"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="CalendarDayButton">
+                                            <Grid>
+                                                <Border x:Name="Bg" Background="Transparent" CornerRadius="2" Margin="1"/>
+                                                <Border x:Name="TodayBorder"
+                                                        BorderBrush="{DynamicResource AppBorderBrush}"
+                                                        BorderThickness="1" CornerRadius="2" Margin="1"
+                                                        Visibility="Collapsed"/>
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                  TextBlock.Foreground="{DynamicResource AppForegroundBrush}"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsToday" Value="True">
+                                                    <Setter TargetName="TodayBorder" Property="Visibility" Value="Visible"/>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Bg" Property="Background" Value="{DynamicResource AppButtonBgBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Bg" Property="Background" Value="{DynamicResource AppSurfaceAltBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Opacity" Value="0.35"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Setter Property="CalendarButtonStyle">
+                        <Setter.Value>
+                            <Style TargetType="CalendarButton">
+                                <Setter Property="MinWidth"  Value="52"/>
+                                <Setter Property="MinHeight" Value="40"/>
+                                <Setter Property="FontSize"  Value="{DynamicResource FontSizeBase}"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalContentAlignment"   Value="Center"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="CalendarButton">
+                                            <Grid>
+                                                <Border x:Name="Bg" Background="Transparent" CornerRadius="2" Margin="1"/>
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                  TextBlock.Foreground="{DynamicResource AppForegroundBrush}"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Bg" Property="Background" Value="{DynamicResource AppSurfaceAltBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Opacity" Value="0.35"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+
+                    <!-- Template del Calendar: CalendarItem con key explícito para saltear
+                         el StaticResource al tema que pone Aero2 -->
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Calendar">
                                 <ControlTemplate.Resources>
-
-                                    <!-- CalendarItem con key explícito para bypasear el StaticResource del tema.
-                                         CalendarDayButton/CalendarButton/DayTitleTemplate van en los
-                                         ControlTemplate.Resources del CalendarItem (donde PopulateGrids los necesita). -->
                                     <Style x:Key="AppCalendarItemStyle" TargetType="CalendarItem">
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="CalendarItem">
                                                     <ControlTemplate.Resources>
-
-                                                        <!-- Header de días de la semana -->
                                                         <DataTemplate x:Key="DayTitleTemplate">
                                                             <TextBlock Text="{Binding}"
                                                                        FontSize="{DynamicResource FontSizeSmall}"
@@ -242,76 +313,7 @@
                                                                        HorizontalAlignment="Center"
                                                                        Margin="0,2,0,4"/>
                                                         </DataTemplate>
-
-                                                        <!-- Botón de día — PopulateGrids crea CalendarDayButton sin Style explícito,
-                                                             el lookup los encuentra en este scope -->
-                                                        <Style TargetType="CalendarDayButton">
-                                                            <Setter Property="MinWidth"  Value="32"/>
-                                                            <Setter Property="MinHeight" Value="26"/>
-                                                            <Setter Property="FontSize"  Value="{DynamicResource FontSizeBase}"/>
-                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                            <Setter Property="VerticalContentAlignment"   Value="Center"/>
-                                                            <Setter Property="Template">
-                                                                <Setter.Value>
-                                                                    <ControlTemplate TargetType="CalendarDayButton">
-                                                                        <Grid>
-                                                                            <Border x:Name="Bg" Background="Transparent" CornerRadius="2" Margin="1"/>
-                                                                            <Border x:Name="TodayBorder"
-                                                                                    BorderBrush="{DynamicResource AppBorderBrush}"
-                                                                                    BorderThickness="1" CornerRadius="2" Margin="1"
-                                                                                    Visibility="Collapsed"/>
-                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                                                              TextBlock.Foreground="{DynamicResource AppForegroundBrush}"/>
-                                                                        </Grid>
-                                                                        <ControlTemplate.Triggers>
-                                                                            <Trigger Property="IsToday" Value="True">
-                                                                                <Setter TargetName="TodayBorder" Property="Visibility" Value="Visible"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsSelected" Value="True">
-                                                                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource AppButtonBgBrush}"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource AppSurfaceAltBrush}"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                                <Setter Property="Opacity" Value="0.35"/>
-                                                                            </Trigger>
-                                                                        </ControlTemplate.Triggers>
-                                                                    </ControlTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Style>
-
-                                                        <!-- Botón de mes/año -->
-                                                        <Style TargetType="CalendarButton">
-                                                            <Setter Property="MinWidth"  Value="52"/>
-                                                            <Setter Property="MinHeight" Value="40"/>
-                                                            <Setter Property="FontSize"  Value="{DynamicResource FontSizeBase}"/>
-                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                            <Setter Property="VerticalContentAlignment"   Value="Center"/>
-                                                            <Setter Property="Template">
-                                                                <Setter.Value>
-                                                                    <ControlTemplate TargetType="CalendarButton">
-                                                                        <Grid>
-                                                                            <Border x:Name="Bg" Background="Transparent" CornerRadius="2" Margin="1"/>
-                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                                                              TextBlock.Foreground="{DynamicResource AppForegroundBrush}"/>
-                                                                        </Grid>
-                                                                        <ControlTemplate.Triggers>
-                                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource AppSurfaceAltBrush}"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                                <Setter Property="Opacity" Value="0.35"/>
-                                                                            </Trigger>
-                                                                        </ControlTemplate.Triggers>
-                                                                    </ControlTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Style>
-
                                                     </ControlTemplate.Resources>
-
                                                     <Grid x:Name="PART_Root">
                                                         <Border Background="{DynamicResource AppSurfaceBrush}"
                                                                 BorderBrush="{DynamicResource AppBorderBrush}"
@@ -361,15 +363,13 @@
                                             </Setter.Value>
                                         </Setter>
                                     </Style>
-
                                 </ControlTemplate.Resources>
-
                                 <CalendarItem x:Name="PART_CalendarItem"
                                               Style="{StaticResource AppCalendarItemStyle}"/>
-
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
+
                 </Style>
             </Setter.Value>
         </Setter>
