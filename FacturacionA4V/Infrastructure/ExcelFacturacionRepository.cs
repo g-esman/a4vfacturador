@@ -129,8 +129,8 @@ public sealed class ExcelFacturacionRepository : IFacturacionRepository
                 MontoTexto = montoTxt,
                 MesAnio = row.Cell(7).GetString(),
                 NroFactura = row.Cell(8).GetString(),
-                FechaFactura = fechaFactura.HasValue ? fechaFactura.Value.ToShortDateString() : "",
-                FechaPago = fechaPago.HasValue ? fechaPago.Value.ToShortDateString() : "",
+                FechaFactura = fechaFactura.HasValue ? fechaFactura.Value.ToString("dd/MM/yyyy") : "",
+                FechaPago = fechaPago.HasValue ? fechaPago.Value.ToString("dd/MM/yyyy") : "",
                 MontoParsed = montoParsed,
                 Nota = row.Cell(10).GetString(),
                 Estado = CalcularEstado(row.Cell(8).GetString(), fechaFactura, fechaPago)

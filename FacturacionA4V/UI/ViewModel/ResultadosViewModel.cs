@@ -76,6 +76,30 @@ public sealed class ResultadosViewModel : ObservableObject
         }
     }
 
+    private DateTime? _fechaPagoDesde;
+    public DateTime? FechaPagoDesde
+    {
+        get => _fechaPagoDesde;
+        set
+        {
+            _fechaPagoDesde = value;
+            OnPropertyChanged();
+            AplicarFiltros();
+        }
+    }
+
+    private DateTime? _fechaPagoHasta;
+    public DateTime? FechaPagoHasta
+    {
+        get => _fechaPagoHasta;
+        set
+        {
+            _fechaPagoHasta = value;
+            OnPropertyChanged();
+            AplicarFiltros();
+        }
+    }
+
     private readonly IFacturacionRepository _repo;
 
     private IReadOnlyList<FacturacionItem> _all = [];
@@ -113,6 +137,8 @@ public sealed class ResultadosViewModel : ObservableObject
         PeriodistaSeleccionado = null;
         AnioSeleccionado = null;
         MesSeleccionado = null;
+        FechaPagoDesde = null;
+        FechaPagoHasta = null;
 
         AplicarFiltros();
     }
@@ -250,6 +276,14 @@ public sealed class ResultadosViewModel : ObservableObject
                 if (month != MesSeleccionado.Numero)
                     continue;
             }
+
+            if (FechaPagoDesde != null &&
+                (item.FechaPagoDate == null || item.FechaPagoDate < FechaPagoDesde))
+                continue;
+
+            if (FechaPagoHasta != null &&
+                (item.FechaPagoDate == null || item.FechaPagoDate > FechaPagoHasta))
+                continue;
 
             Filtrados.Add(item);
         }

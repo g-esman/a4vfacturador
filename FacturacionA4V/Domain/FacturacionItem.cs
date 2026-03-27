@@ -32,4 +32,9 @@ public sealed class FacturacionItem : ObservableObject
     // Derivados (NO vienen de Excel)
     public decimal? MontoParsed { get; init; }
     public EstadoFactura Estado { get; init; }
+
+    public DateTime? FechaPagoDate =>
+        DateTime.TryParseExact(FechaPago, "dd/MM/yyyy",
+            System.Globalization.CultureInfo.InvariantCulture,
+            System.Globalization.DateTimeStyles.None, out var d) ? d : null;
 }

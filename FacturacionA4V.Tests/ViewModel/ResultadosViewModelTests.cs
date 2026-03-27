@@ -333,4 +333,101 @@ public class ResultadosViewModelTests
         Assert.Null(vm.MesSeleccionado);
         Assert.Equal(2, vm.Filtrados.Count);
     }
+
+    private static FacturacionItem MakeItemConFechaPago(string mesAnio, string fechaPago)
+        => MakeItem(mesAnio, fechaPago: fechaPago);
+
+    // TEST-088
+    [Fact]
+    public void AplicarFiltros_FechaPagoDesde_ExcluyeAnteriores()
+    {
+        var items = new List<FacturacionItem>
+        {
+            MakeItemConFechaPago("01/2025", "01/01/2025"),
+            MakeItemConFechaPago("02/2025", "15/03/2025"),
+            MakeItemConFechaPago("03/2025", "30/06/2025"),
+            MakeItem("04/2025") // sin fecha pago
+        };
+
+        var vm = CreateVm(items);
+        vm.FechaPagoDesde = new DateTime(2025, 3, 1);
+
+        Assert.Equal(2, vm.Filtrados.Count);
+        Assert.All(vm.Filtrados, x => Assert.NotEmpty(x.FechaPago));
+    }
+
+    // TEST-089
+    [Fact]
+    public void AplicarFiltros_FechaPagoHasta_ExcluyePosteriores()
+    {
+        var items = new List<FacturacionItem>
+        {
+            MakeItemConFechaPago("01/2025", "01/01/2025"),
+            MakeItemConFechaPago("02/2025", "15/03/2025"),
+            MakeItemConFechaPago("03/2025", "30/06/2025"),
+            MakeItem("04/2025") // sin fecha pago
+        };
+
+        var vm = CreateVm(items);
+        vm.FechaPagoHasta = new DateTime(2025, 3, 31);
+
+        Assert.Equal(2, vm.Filtrados.Count);
+    }
+
+    // TEST-090
+    [Fact]
+    public void AplicarFiltros_RangoFechaPago_FiltraAmboExtremos()
+    {
+        var items = new List<FacturacionItem>
+        {
+            MakeItemConFechaPago("01/2025", "01/01/2025"),
+            MakeItemConFechaPago("02/2025", "15/03/2025"),
+            MakeItemConFechaPago("03/2025", "30/06/2025"),
+        };
+
+        var vm = CreateVm(items);
+        vm.FechaPagoDesde = new DateTime(2025, 2, 1);
+        vm.FechaPagoHasta = new DateTime(2025, 4, 30);
+
+        Assert.Single(vm.Filtrados);
+        Assert.Equal("15/03/2025", vm.Filtrados[0].FechaPago);
+    }
+
+    // TEST-091
+    [Fact]
+    public void LimpiarFiltros_ReseteaFechasPago()
+    {
+        var items = new List<FacturacionItem>
+        {
+            MakeItemConFechaPago("01/2025", "01/01/2025"),
+            MakeItemConFechaPago("02/2025", "15/03/2025"),
+        };
+
+        var vm = CreateVm(items);
+        vm.FechaPagoDesde = new DateTime(2025, 3, 1);
+        Assert.Equal(1, vm.Filtrados.Count);
+
+        vm.LimpiarFiltrosCommand.Execute(null);
+
+        Assert.Null(vm.FechaPagoDesde);
+        Assert.Null(vm.FechaPagoHasta);
+        Assert.Equal(2, vm.Filtrados.Count);
+    }
+
+    // TEST-092
+    [Fact]
+    public void AplicarFiltros_ItemSinFechaPago_ExcluidoCuandoHayFiltroFecha()
+    {
+        var items = new List<FacturacionItem>
+        {
+            MakeItem("01/2025"),                                     // sin fecha pago
+            MakeItemConFechaPago("02/2025", "15/03/2025"),
+        };
+
+        var vm = CreateVm(items);
+        vm.FechaPagoDesde = new DateTime(2025, 1, 1);
+
+        Assert.Single(vm.Filtrados);
+        Assert.Equal("15/03/2025", vm.Filtrados[0].FechaPago);
+    }
 }
