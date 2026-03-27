@@ -28,6 +28,7 @@ public sealed class FacturacionItem : ObservableObject
     public string FechaFactura { get; init; } = "";
     public string FechaPago { get; init; } = "";
     public string Nota { get; init; } = "";
+    public string InformacionAdicional { get; init; } = "";
 
     // Derivados (NO vienen de Excel)
     public decimal? MontoParsed { get; init; }

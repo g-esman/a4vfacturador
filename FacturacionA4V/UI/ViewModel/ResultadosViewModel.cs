@@ -120,6 +120,8 @@ public sealed class ResultadosViewModel : ObservableObject
 
     public ICommand LimpiarFiltrosCommand { get; }
 
+    public ICommand AgregarInfoAdicionalCommand { get; }
+
     public ResultadosViewModel(IFacturacionRepository repo)
     {
         _repo = repo;
@@ -127,6 +129,7 @@ public sealed class ResultadosViewModel : ObservableObject
         AgregarFacturaCommand = new RelayCommand(AbrirAgregarFactura, PuedeAgregarFactura);
         AgregarPagoCommand = new RelayCommand(AbrirAgregarPago, PuedeAgregarPago);
         LimpiarFiltrosCommand = new RelayCommand(LimpiarFiltros);
+        AgregarInfoAdicionalCommand = new RelayCommand(AbrirAgregarInfoAdicional, PuedeAgregarInfoAdicional);
         Cargar();
     }
 
@@ -174,6 +177,31 @@ public sealed class ResultadosViewModel : ObservableObject
                 !string.IsNullOrWhiteSpace(x.NroFactura) &&
                  string.IsNullOrWhiteSpace(x.FechaPago));
     }
+    private bool PuedeAgregarInfoAdicional()
+        => Seleccionados.Any();
+
+    private void AbrirAgregarInfoAdicional()
+    {
+        var seleccionados = Seleccionados.ToList();
+        if (!seleccionados.Any())
+            return;
+
+        var vm = new AgregarInfoAdicionalViewModel();
+
+        var dlg = new AgregarInfoAdicionalWindow { DataContext = vm };
+        if (dlg.ShowDialog() != true)
+            return;
+
+        var updates = seleccionados.Select(x => new InformacionAdicionalUpdate
+        {
+            Id = x.Id,
+            InformacionAdicional = vm.InformacionAdicional
+        });
+
+        _repo.UpdateInformacionAdicional(updates);
+        Cargar();
+    }
+
     private bool PuedeAgregarFactura()
     {
         var selected = Seleccionados.ToList();
@@ -212,6 +240,7 @@ public sealed class ResultadosViewModel : ObservableObject
         {
             ((RelayCommand)AgregarFacturaCommand).RaiseCanExecuteChanged();
             ((RelayCommand)AgregarPagoCommand).RaiseCanExecuteChanged();
+            ((RelayCommand)AgregarInfoAdicionalCommand).RaiseCanExecuteChanged();
         }
     }
 
