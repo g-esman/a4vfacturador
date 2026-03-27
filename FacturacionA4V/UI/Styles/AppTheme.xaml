@@ -239,10 +239,6 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}"/>
             </Trigger>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{DynamicResource AppButtonBgBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
-            </Trigger>
         </Style.Triggers>
     </Style>
 
@@ -253,10 +249,6 @@
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}"/>
-            </Trigger>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{DynamicResource AppButtonBgBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
