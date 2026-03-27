@@ -197,13 +197,6 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- CONFIRMACIÓN -->
-            <TextBlock Text="{Binding Confirmacion}"
-                       Foreground="#4CAF50"
-                       FontWeight="SemiBold"
-                       Visibility="{Binding HayConfirmacion, Converter={StaticResource BoolToVisibilityConverter}}"
-                       Margin="0,0,0,4"/>
-
             <!-- ACCIONES -->
             <StackPanel Orientation="Horizontal">
                 <Button Content="Agregar factura"
@@ -230,6 +223,21 @@
                            Text="{Binding TotalPendiente, StringFormat=Pendiente: {0:C}}"/>
             </StackPanel>
         </Grid>
+
+        <!-- CONFIRMACIÓN — overlay centrado sobre toda la pantalla -->
+        <Border Grid.Row="0" Grid.RowSpan="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="#CC1B5E20"
+                CornerRadius="6"
+                Padding="24,12"
+                IsHitTestVisible="False"
+                Visibility="{Binding HayConfirmacion, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock Text="{Binding Confirmacion}"
+                       Foreground="#FFFFFF"
+                       FontWeight="SemiBold"
+                       FontSize="{DynamicResource FontSizeMedium}"/>
+        </Border>
 
     </Grid>
 </UserControl>
