@@ -54,7 +54,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel>
-                    <TextBlock Text="Auspiciante" FontSize="11" Opacity="0.7"/>
+                    <TextBlock Text="Auspiciante" FontSize="{StaticResource FontSizeSmall}" Opacity="0.7"/>
                     <ComboBox ItemsSource="{Binding AuspiciantesDisponibles}"
                               SelectedItem="{Binding AuspicianteSeleccionado}"
                               IsEditable="True"
@@ -63,7 +63,7 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                    <TextBlock Text="Programa" FontSize="11" Opacity="0.7"/>
+                    <TextBlock Text="Programa" FontSize="{StaticResource FontSizeSmall}" Opacity="0.7"/>
                     <ComboBox ItemsSource="{Binding ProgramasDisponibles}"
                               SelectedItem="{Binding ProgramaSeleccionado}"
                               IsEditable="True"
@@ -72,7 +72,7 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" Margin="8,0,0,0">
-                    <TextBlock Text="Periodista" FontSize="11" Opacity="0.7"/>
+                    <TextBlock Text="Periodista" FontSize="{StaticResource FontSizeSmall}" Opacity="0.7"/>
                     <ComboBox ItemsSource="{Binding PeriodistasDisponibles}"
                               SelectedItem="{Binding PeriodistaSeleccionado}"
                               IsEditable="True"
@@ -81,14 +81,14 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="3" Margin="8,0,0,0">
-                    <TextBlock Text="Año" FontSize="11" Opacity="0.7"/>
+                    <TextBlock Text="Año" FontSize="{StaticResource FontSizeSmall}" Opacity="0.7"/>
                     <ComboBox ItemsSource="{Binding AniosDisponibles}"
                               SelectedItem="{Binding AnioSeleccionado}"
                               Height="28"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="4" Margin="8,0,0,0">
-                    <TextBlock Text="Mes" FontSize="11" Opacity="0.7"/>
+                    <TextBlock Text="Mes" FontSize="{StaticResource FontSizeSmall}" Opacity="0.7"/>
                     <ComboBox ItemsSource="{Binding MesesDisponibles}"
                               SelectedItem="{Binding MesSeleccionado}"
                               DisplayMemberPath="Nombre"
@@ -104,13 +104,13 @@
 
                 <!-- FILA 2: Filtros por fecha de pago -->
                 <StackPanel Grid.Row="1" Margin="0,8,0,0">
-                    <TextBlock Text="Fecha pago desde" FontSize="11" Opacity="0.7"/>
+                    <TextBlock Text="Fecha pago desde" FontSize="{StaticResource FontSizeSmall}" Opacity="0.7"/>
                     <DatePicker SelectedDate="{Binding FechaPagoDesde}"
                                 Height="28"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Grid.Column="1" Margin="8,8,0,0">
-                    <TextBlock Text="Fecha pago hasta" FontSize="11" Opacity="0.7"/>
+                    <TextBlock Text="Fecha pago hasta" FontSize="{StaticResource FontSizeSmall}" Opacity="0.7"/>
                     <DatePicker SelectedDate="{Binding FechaPagoHasta}"
                                 Height="28"/>
                 </StackPanel>
