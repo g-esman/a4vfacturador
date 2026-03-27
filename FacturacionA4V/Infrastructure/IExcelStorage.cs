@@ -59,7 +59,10 @@ namespace FacturacionA4V.Infrastructure
             var request = service.Files.Update(fileMetadata, _fileId, stream,
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
-            await request.UploadAsync(); // BUG-003 fix: was missing await
+            var progress = await request.UploadAsync();
+
+            if (progress.Status == Google.Apis.Upload.UploadStatus.Failed)
+                throw new Exception($"Drive rechazó la subida: {progress.Exception?.Message}");
         }
     }
 }

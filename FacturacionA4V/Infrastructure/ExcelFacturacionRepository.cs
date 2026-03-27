@@ -43,8 +43,11 @@ public sealed class ExcelFacturacionRepository : IFacturacionRepository
             }
             catch (Exception ex)
             {
-                // Loguear mínimo
-                throw new("No se pudo guardar, reinicia la aplicacion y volve a intentarlo, a pesar de que lo vea en su copia local");
+                var msg = $"Los datos se guardaron localmente pero no pudieron subirse a Drive.\n\nError: {ex.Message}";
+                System.Windows.Application.Current?.Dispatcher.BeginInvoke(() =>
+                    System.Windows.MessageBox.Show(msg, "Error al sincronizar con Drive",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Warning));
             }
         });
     }

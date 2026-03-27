@@ -196,7 +196,75 @@ public class ExcelFacturacionRepositoryTests : IDisposable
         Assert.Null(result);
     }
 
-    // ==================== TEST-015 a TEST-017: InsertMany ====================
+    // ==================== TEST-015: Upload se llama en cada operación de escritura ====================
+
+    [Fact]
+    public async Task InsertMany_LlamaUploadToDrive()
+    {
+        CreateRepo().InsertMany([new FacturacionRow
+        {
+            Id = Guid.NewGuid(), Auspiciante = "A", Programa = "P",
+            Periodista = "Per", Monto = "100", TipoFactura = "A", MesAnio = "01/2025"
+        }]);
+
+        await Task.Delay(300); // espera el Task.Run de UploadToDrive
+        _driveMock.Verify(d => d.Upload(It.IsAny<Stream>()), Times.Once());
+    }
+
+    [Fact]
+    public async Task UpdateFactura_LlamaUploadToDrive()
+    {
+        var id = Guid.NewGuid();
+        CreateExcelWithRows(new FacturacionRow
+        {
+            Id = id, Auspiciante = "A", Programa = "P", Periodista = "Per",
+            Monto = "100", TipoFactura = "A", MesAnio = "01/2025"
+        });
+
+        CreateRepo().UpdateFactura([new FacturaUpdate
+        {
+            Id = id, NroFactura = "F-001", FechaFactura = DateTime.Today
+        }]);
+
+        await Task.Delay(300);
+        _driveMock.Verify(d => d.Upload(It.IsAny<Stream>()), Times.Once());
+    }
+
+    [Fact]
+    public async Task UpdatePago_LlamaUploadToDrive()
+    {
+        var id = Guid.NewGuid();
+        CreateExcelWithRows(new FacturacionRow
+        {
+            Id = id, Auspiciante = "A", Programa = "P", Periodista = "Per",
+            Monto = "100", TipoFactura = "A", MesAnio = "01/2025", NroFactura = "F-001"
+        });
+
+        CreateRepo().UpdatePago([new PagoUpdate { Id = id, FechaPago = DateTime.Today }]);
+
+        await Task.Delay(300);
+        _driveMock.Verify(d => d.Upload(It.IsAny<Stream>()), Times.Once());
+    }
+
+    [Fact]
+    public async Task InsertMany_FallaUpload_NoLanzaExcepcionAlLlamador()
+    {
+        // El error de Drive no debe propagarse al llamador — se notifica via Dispatcher
+        _driveMock.Setup(d => d.Upload(It.IsAny<Stream>()))
+                  .ThrowsAsync(new Exception("Drive no disponible"));
+
+        var ex = Record.Exception(() =>
+            CreateRepo().InsertMany([new FacturacionRow
+            {
+                Id = Guid.NewGuid(), Auspiciante = "A", Programa = "P",
+                Periodista = "Per", Monto = "100", TipoFactura = "A", MesAnio = "01/2025"
+            }]));
+
+        await Task.Delay(300);
+        Assert.Null(ex); // InsertMany no debe lanzar aunque Drive falle
+    }
+
+    // ==================== TEST-016 a TEST-018: InsertMany — contenido Excel ====================
 
     [Fact]
     public void InsertMany_ArchivoNuevo_CreaHojaConHeaderYFila()
