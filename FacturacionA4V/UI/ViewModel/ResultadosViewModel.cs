@@ -186,7 +186,10 @@ public sealed class ResultadosViewModel : ObservableObject
         if (!seleccionados.Any())
             return;
 
-        var vm = new AgregarInfoAdicionalViewModel();
+        var vm = new AgregarInfoAdicionalViewModel
+        {
+            InformacionAdicional = seleccionados[0].InformacionAdicional
+        };
 
         var dlg = new AgregarInfoAdicionalWindow { DataContext = vm };
         if (dlg.ShowDialog() != true)

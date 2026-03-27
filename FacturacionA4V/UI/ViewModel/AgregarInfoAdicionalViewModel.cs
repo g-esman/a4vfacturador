@@ -14,5 +14,5 @@ public sealed class AgregarInfoAdicionalViewModel : ObservableObject
         }
     }
 
-    public bool IsValid => !string.IsNullOrWhiteSpace(InformacionAdicional);
+    public bool IsValid => true;
 }
