@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Media;
 
@@ -36,11 +37,11 @@ public sealed class ThemeService
         var res = Application.Current.Resources;
         bool dark = settings.DarkMode;
 
-        // --- Fuentes ---
-        res["FontSizeSmall"]  = settings.FontSizeSmall;
+        // --- Fuentes (Small/Medium/Large se derivan del Base) ---
         res["FontSizeBase"]   = settings.FontSizeBase;
-        res["FontSizeMedium"] = settings.FontSizeMedium;
-        res["FontSizeLarge"]  = settings.FontSizeLarge;
+        res["FontSizeSmall"]  = Math.Max(8.0,  settings.FontSizeBase - 2);
+        res["FontSizeMedium"] = settings.FontSizeBase + 1;
+        res["FontSizeLarge"]  = settings.FontSizeBase + 2;
 
         // --- Brushes de la app ---
         Set(res, "AppBackgroundBrush",      dark ? DarkBackground      : LightBackground);

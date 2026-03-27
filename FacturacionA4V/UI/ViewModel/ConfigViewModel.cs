@@ -19,32 +19,11 @@ public sealed class ConfigViewModel : ObservableObject
 
     // --- Fuentes ---
 
-    private double _fontSizeSmall;
-    public double FontSizeSmall
-    {
-        get => _fontSizeSmall;
-        set { _fontSizeSmall = value; OnPropertyChanged(); PreviewTheme(); }
-    }
-
     private double _fontSizeBase;
     public double FontSizeBase
     {
         get => _fontSizeBase;
         set { _fontSizeBase = value; OnPropertyChanged(); PreviewTheme(); }
-    }
-
-    private double _fontSizeMedium;
-    public double FontSizeMedium
-    {
-        get => _fontSizeMedium;
-        set { _fontSizeMedium = value; OnPropertyChanged(); PreviewTheme(); }
-    }
-
-    private double _fontSizeLarge;
-    public double FontSizeLarge
-    {
-        get => _fontSizeLarge;
-        set { _fontSizeLarge = value; OnPropertyChanged(); PreviewTheme(); }
     }
 
     // --- Tema ---
@@ -78,16 +57,10 @@ public sealed class ConfigViewModel : ObservableObject
 
     private void LoadFrom(AppUserSettings s)
     {
-        _fontSizeSmall  = s.FontSizeSmall;
-        _fontSizeBase   = s.FontSizeBase;
-        _fontSizeMedium = s.FontSizeMedium;
-        _fontSizeLarge  = s.FontSizeLarge;
-        _darkMode       = s.DarkMode;
+        _fontSizeBase = s.FontSizeBase;
+        _darkMode     = s.DarkMode;
 
-        OnPropertyChanged(nameof(FontSizeSmall));
         OnPropertyChanged(nameof(FontSizeBase));
-        OnPropertyChanged(nameof(FontSizeMedium));
-        OnPropertyChanged(nameof(FontSizeLarge));
         OnPropertyChanged(nameof(DarkMode));
     }
 
@@ -112,10 +85,7 @@ public sealed class ConfigViewModel : ObservableObject
 
     private AppUserSettings BuildSettings() => new()
     {
-        FontSizeSmall  = FontSizeSmall,
-        FontSizeBase   = FontSizeBase,
-        FontSizeMedium = FontSizeMedium,
-        FontSizeLarge  = FontSizeLarge,
-        DarkMode       = DarkMode,
+        FontSizeBase = FontSizeBase,
+        DarkMode     = DarkMode,
     };
 }

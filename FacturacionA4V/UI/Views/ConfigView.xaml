@@ -24,39 +24,13 @@
             <Border Background="{DynamicResource AppSurfaceBrush}"
                     CornerRadius="6" Padding="16" Margin="0,0,0,24">
                 <StackPanel>
-
-                    <TextBlock Text="Texto pequeño (labels y hints)" Margin="0,0,0,4"/>
-                    <DockPanel Margin="0,0,0,12">
-                        <TextBlock Text="{Binding FontSizeSmall, StringFormat={}{0:0}px}"
-                                   DockPanel.Dock="Right" Width="36" TextAlignment="Right"
-                                   Foreground="{DynamicResource AppForegroundMutedBrush}"/>
-                        <Slider Value="{Binding FontSizeSmall}" Minimum="9" Maximum="18" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                    </DockPanel>
-
-                    <TextBlock Text="Texto general" Margin="0,0,0,4"/>
-                    <DockPanel Margin="0,0,0,12">
+                    <TextBlock Text="Tamaño de texto" Margin="0,0,0,4"/>
+                    <DockPanel>
                         <TextBlock Text="{Binding FontSizeBase, StringFormat={}{0:0}px}"
                                    DockPanel.Dock="Right" Width="36" TextAlignment="Right"
                                    Foreground="{DynamicResource AppForegroundMutedBrush}"/>
                         <Slider Value="{Binding FontSizeBase}" Minimum="10" Maximum="22" TickFrequency="1" IsSnapToTickEnabled="True"/>
                     </DockPanel>
-
-                    <TextBlock Text="Encabezados de columna" Margin="0,0,0,4"/>
-                    <DockPanel Margin="0,0,0,12">
-                        <TextBlock Text="{Binding FontSizeMedium, StringFormat={}{0:0}px}"
-                                   DockPanel.Dock="Right" Width="36" TextAlignment="Right"
-                                   Foreground="{DynamicResource AppForegroundMutedBrush}"/>
-                        <Slider Value="{Binding FontSizeMedium}" Minimum="10" Maximum="22" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                    </DockPanel>
-
-                    <TextBlock Text="Títulos" Margin="0,0,0,4"/>
-                    <DockPanel>
-                        <TextBlock Text="{Binding FontSizeLarge, StringFormat={}{0:0}px}"
-                                   DockPanel.Dock="Right" Width="36" TextAlignment="Right"
-                                   Foreground="{DynamicResource AppForegroundMutedBrush}"/>
-                        <Slider Value="{Binding FontSizeLarge}" Minimum="12" Maximum="26" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                    </DockPanel>
-
                 </StackPanel>
             </Border>
 
