@@ -1,7 +1,6 @@
 ﻿using FacturacionA4V.Domain;
 using FacturacionA4V.Infrastructure;
 using FacturacionA4V.UI.ViewModel;
-using Google.Apis.Drive.v3.Data;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using System.Windows;
@@ -12,17 +11,26 @@ public partial class MainWindow : Window
 {
     private readonly CargaView _cargaView;
     private readonly ResultadosView _resultadosView;
+    private readonly ConfigView _configView;
 
     public MainWindow()
     {
         InitializeComponent();
 
-        SetLocalVersion();
-        // Crear instancias de las vistas (UserControls)
-        _cargaView = new CargaView();
-        _resultadosView = new ResultadosView();
+        // Aplicar tema guardado antes de mostrar la ventana
+        var settingsService = new AppSettingsService();
+        var themeService    = new ThemeService();
+        themeService.Apply(settingsService.Load());
 
-        // Pantalla inicial
+        SetLocalVersion();
+
+        _cargaView      = new CargaView();
+        _resultadosView = new ResultadosView();
+        _configView     = new ConfigView
+        {
+            DataContext = new ConfigViewModel(settingsService, themeService)
+        };
+
         ShellContent.Content = _cargaView;
     }
 
@@ -57,5 +65,10 @@ public partial class MainWindow : Window
         {
             vm.Cargar();
         }
+    }
+
+    private void OnConfigClick(object sender, RoutedEventArgs e)
+    {
+        ShellContent.Content = _configView;
     }
 }
