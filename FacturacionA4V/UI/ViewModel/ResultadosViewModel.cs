@@ -13,6 +13,21 @@ public sealed class ResultadosViewModel : ObservableObject
     public ObservableCollection<string> PeriodistasDisponibles { get; } = [];
     public ObservableCollection<int> AniosDisponibles { get; } = [];
 
+    public IReadOnlyList<MesItem> MesesDisponibles { get; } =
+        Enumerable.Range(1, 12).Select(m => new MesItem(m)).ToList();
+
+    private MesItem? _mesSeleccionado;
+    public MesItem? MesSeleccionado
+    {
+        get => _mesSeleccionado;
+        set
+        {
+            _mesSeleccionado = value;
+            OnPropertyChanged();
+            AplicarFiltros();
+        }
+    }
+
     private string? _auspicianteSeleccionado;
     public string? AuspicianteSeleccionado
     {
@@ -97,6 +112,7 @@ public sealed class ResultadosViewModel : ObservableObject
         ProgramaSeleccionado = null;
         PeriodistaSeleccionado = null;
         AnioSeleccionado = null;
+        MesSeleccionado = null;
 
         AplicarFiltros();
     }
@@ -225,6 +241,13 @@ public sealed class ResultadosViewModel : ObservableObject
             {
                 var year = int.Parse(item.MesAnio.Split('/')[1]);
                 if (year != AnioSeleccionado)
+                    continue;
+            }
+
+            if (MesSeleccionado != null)
+            {
+                var month = int.Parse(item.MesAnio.Split('/')[0]);
+                if (month != MesSeleccionado.Numero)
                     continue;
             }
 

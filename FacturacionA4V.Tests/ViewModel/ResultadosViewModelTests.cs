@@ -294,4 +294,43 @@ public class ResultadosViewModelTests
         Assert.Equal(1, vm.Filtrados.Count);
         Assert.Equal("01/2025", vm.Filtrados[0].MesAnio);
     }
+
+    // TEST-086
+    [Fact]
+    public void AplicarFiltros_PorMes_FiltraCorrectamente()
+    {
+        var items = new List<FacturacionItem>
+        {
+            MakeItem("03/2025"),
+            MakeItem("06/2025"),
+            MakeItem("03/2024")
+        };
+
+        var vm = CreateVm(items);
+
+        vm.MesSeleccionado = vm.MesesDisponibles.First(m => m.Numero == 3);
+
+        Assert.Equal(2, vm.Filtrados.Count);
+        Assert.All(vm.Filtrados, x => Assert.StartsWith("03/", x.MesAnio));
+    }
+
+    // TEST-087
+    [Fact]
+    public void LimpiarFiltros_ReseteaMesTambien()
+    {
+        var items = new List<FacturacionItem>
+        {
+            MakeItem("03/2025"),
+            MakeItem("06/2025")
+        };
+
+        var vm = CreateVm(items);
+        vm.MesSeleccionado = vm.MesesDisponibles.First(m => m.Numero == 3);
+        Assert.Equal(1, vm.Filtrados.Count);
+
+        vm.LimpiarFiltrosCommand.Execute(null);
+
+        Assert.Null(vm.MesSeleccionado);
+        Assert.Equal(2, vm.Filtrados.Count);
+    }
 }
