@@ -1,4 +1,4 @@
-﻿
+
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
@@ -6,7 +6,13 @@ using System.IO;
 
 namespace FacturacionA4V.Infrastructure
 {
-    public class GoogleDriveFileService
+    public interface IDriveFileService
+    {
+        Task<MemoryStream> DownloadFile();
+        Task Upload(Stream stream);
+    }
+
+    public class GoogleDriveFileService : IDriveFileService
     {
         private readonly string _serviceAccountPath;
         private readonly string _fileId;
@@ -53,7 +59,7 @@ namespace FacturacionA4V.Infrastructure
             var request = service.Files.Update(fileMetadata, _fileId, stream,
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
-            request.UploadAsync();
+            await request.UploadAsync(); // BUG-003 fix: was missing await
         }
     }
 }
