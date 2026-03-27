@@ -6,5 +6,6 @@
         IReadOnlyList<FacturacionItem> ReadAll();
         void UpdateFactura(IEnumerable<FacturaUpdate> updates);
         void UpdatePago(IEnumerable<PagoUpdate> updates);
+        void UpdateInformacionAdicional(IEnumerable<InformacionAdicionalUpdate> updates);
     }
 }

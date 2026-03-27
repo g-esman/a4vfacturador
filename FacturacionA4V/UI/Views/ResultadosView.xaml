@@ -175,14 +175,15 @@
                 <DataGridTextColumn Header="Periodista" Binding="{Binding Periodista}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Monto" Binding="{Binding MontoTexto}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Mes/Año" Binding="{Binding MesAnio}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Información Adicional" Binding="{Binding InformacionAdicional}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="N° Factura" Binding="{Binding NroFactura}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Fecha Factura"
                                     Binding="{Binding FechaFactura}"
                                     IsReadOnly="True"/>
+                <DataGridTextColumn Header="Nota Factura" Binding="{Binding Nota}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Fecha Pago"
                                     Binding="{Binding FechaPago}"
                                     IsReadOnly="True"/>
-                <DataGridTextColumn Header="Nota" Binding="{Binding Nota}" IsReadOnly="True"/>
 
             </DataGrid.Columns>
         </DataGrid>
@@ -203,6 +204,10 @@
                         Padding="12,6"/>
                 <Button Content="Agregar pago"
                         Command="{Binding AgregarPagoCommand}"
+                        Margin="8,0,0,0"
+                        Padding="12,6"/>
+                <Button Content="Agregar información adicional"
+                        Command="{Binding AgregarInfoAdicionalCommand}"
                         Margin="8,0,0,0"
                         Padding="12,6"/>
             </StackPanel>

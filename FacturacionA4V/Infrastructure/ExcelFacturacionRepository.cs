@@ -76,6 +76,7 @@ public sealed class ExcelFacturacionRepository : IFacturacionRepository
             ws.Cell(rowIdx, 9).Value = r.FechaFactura ?? "";
             ws.Cell(rowIdx, 10).Value = r.Nota ?? "";
             ws.Cell(rowIdx, 11).Value = r.FechaPago ?? "";
+            ws.Cell(rowIdx, 12).Value = "";   // InformacionAdicional — se carga desde Resultados
             rowIdx++;
         }
 
@@ -96,6 +97,7 @@ public sealed class ExcelFacturacionRepository : IFacturacionRepository
         ws.Cell(1, 9).Value = "FechaFactura";
         ws.Cell(1, 10).Value = "Nota";
         ws.Cell(1, 11).Value = "FechaPago";
+        ws.Cell(1, 12).Value = "InformacionAdicional";
     }
 
     public IReadOnlyList<FacturacionItem> ReadAll()
@@ -133,6 +135,7 @@ public sealed class ExcelFacturacionRepository : IFacturacionRepository
                 FechaPago = fechaPago.HasValue ? fechaPago.Value.ToString("dd/MM/yyyy") : "",
                 MontoParsed = montoParsed,
                 Nota = row.Cell(10).GetString(),
+                InformacionAdicional = row.Cell(12).GetString(),
                 Estado = CalcularEstado(row.Cell(8).GetString(), fechaFactura, fechaPago)
             });
         }
@@ -263,6 +266,29 @@ public sealed class ExcelFacturacionRepository : IFacturacionRepository
                 continue;
 
             row.Cell(11).Value = upd.FechaPago; // FechaPago
+        }
+
+        wb.Save();
+        UploadToDrive();
+    }
+
+    public void UpdateInformacionAdicional(IEnumerable<InformacionAdicionalUpdate> updates)
+    {
+        if (!System.IO.File.Exists(_filePath))
+            throw new InvalidOperationException("No existe Facturacion.xlsx");
+
+        using var wb = new XLWorkbook(_filePath);
+        var ws = wb.Worksheet("Facturacion");
+
+        var byId = updates.ToDictionary(u => u.Id);
+
+        foreach (var row in ws.RowsUsed().Skip(1))
+        {
+            var id = Guid.Parse(row.Cell(1).GetString());
+            if (!byId.TryGetValue(id, out var upd))
+                continue;
+
+            row.Cell(12).Value = upd.InformacionAdicional;
         }
 
         wb.Save();
