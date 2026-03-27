@@ -20,7 +20,7 @@
     <!-- =========================
          LAYOUT PRINCIPAL
     ========================== -->
-    <Grid Margin="12">
+    <Grid Margin="12" Background="{DynamicResource AppBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <!-- filtros -->

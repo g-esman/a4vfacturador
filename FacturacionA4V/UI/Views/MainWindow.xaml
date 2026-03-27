@@ -5,7 +5,7 @@
         Title="Facturación" Width="1200" Height="700"
         WindowStartupLocation="CenterScreen">
 
-    <Grid>
+    <Grid Background="{DynamicResource AppBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

@@ -3,9 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <!-- =====================================================
-         TAMAÑOS DE FUENTE — valores por defecto
-         El ThemeService los sobreescribe en runtime con los
-         valores guardados en user-settings.json
+         TAMAÑOS DE FUENTE — modificar solo aquí
          ===================================================== -->
     <sys:Double x:Key="FontSizeSmall">12</sys:Double>
     <sys:Double x:Key="FontSizeBase">14</sys:Double>
@@ -13,8 +11,8 @@
     <sys:Double x:Key="FontSizeLarge">16</sys:Double>
 
     <!-- =====================================================
-         COLORES — valores por defecto (modo claro)
-         El ThemeService los sobreescribe al cambiar el tema
+         COLORES ESTRUCTURALES — valores por defecto (modo claro)
+         ThemeService los sobreescribe en runtime
          ===================================================== -->
     <SolidColorBrush x:Key="AppBackgroundBrush"      Color="#FFFFFF"/>
     <SolidColorBrush x:Key="AppSurfaceBrush"         Color="#F5F5F5"/>
@@ -24,61 +22,178 @@
     <SolidColorBrush x:Key="AppBorderBrush"          Color="#DDDDDD"/>
     <SolidColorBrush x:Key="AppInputBgBrush"         Color="#FFFFFF"/>
 
-    <!-- =====================================================
-         ESTILOS BASE
-         ===================================================== -->
+    <!-- Botón -->
+    <SolidColorBrush x:Key="AppButtonBgBrush"    Color="#E0E0E0"/>
+    <SolidColorBrush x:Key="AppButtonFgBrush"    Color="#1A1A1A"/>
+    <SolidColorBrush x:Key="AppButtonHoverBrush" Color="#CCCCCC"/>
+    <SolidColorBrush x:Key="AppButtonPressBrush" Color="#B8B8B8"/>
 
+    <!-- =====================================================
+         WINDOW Y USERCONTROL
+         ===================================================== -->
     <Style TargetType="Window">
         <Setter Property="Background" Value="{DynamicResource AppBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
     </Style>
 
+    <!-- =====================================================
+         TEXTOS
+         ===================================================== -->
     <Style TargetType="TextBlock">
-        <Setter Property="FontSize"    Value="{DynamicResource FontSizeBase}"/>
-        <Setter Property="Foreground"  Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="FontSize"   Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
     </Style>
 
-    <Style TargetType="TextBox">
+    <Style TargetType="Label">
         <Setter Property="FontSize"   Value="{DynamicResource FontSizeBase}"/>
-        <Setter Property="Background" Value="{DynamicResource AppInputBgBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
+    </Style>
+
+    <!-- =====================================================
+         INPUTS
+         ===================================================== -->
+    <Style TargetType="TextBox">
+        <Setter Property="FontSize"    Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Background"  Value="{DynamicResource AppInputBgBrush}"/>
+        <Setter Property="Foreground"  Value="{DynamicResource AppForegroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}"/>
-        <Setter Property="CaretBrush" Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="CaretBrush"  Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource AppButtonHoverBrush}"/>
+        <Setter Property="Padding"     Value="4,2"/>
     </Style>
 
     <Style TargetType="ComboBox">
-        <Setter Property="FontSize"   Value="{DynamicResource FontSizeBase}"/>
-        <Setter Property="Background" Value="{DynamicResource AppInputBgBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="FontSize"    Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Background"  Value="{DynamicResource AppInputBgBrush}"/>
+        <Setter Property="Foreground"  Value="{DynamicResource AppForegroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}"/>
     </Style>
 
-    <Style TargetType="Button">
-        <Setter Property="FontSize" Value="{DynamicResource FontSizeBase}"/>
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Background" Value="{DynamicResource AppInputBgBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource AppButtonHoverBrush}"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{DynamicResource AppButtonHoverBrush}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
+    <Style TargetType="DatePicker">
+        <Setter Property="FontSize"    Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Background"  Value="{DynamicResource AppInputBgBrush}"/>
+        <Setter Property="Foreground"  Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}"/>
+    </Style>
+
+    <!-- =====================================================
+         BOTÓN — template propio para independizarse del tema Windows
+         ===================================================== -->
+    <Style TargetType="Button">
+        <Setter Property="FontSize"          Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Background"        Value="{DynamicResource AppButtonBgBrush}"/>
+        <Setter Property="Foreground"        Value="{DynamicResource AppButtonFgBrush}"/>
+        <Setter Property="BorderBrush"       Value="{DynamicResource AppBorderBrush}"/>
+        <Setter Property="BorderThickness"   Value="1"/>
+        <Setter Property="Padding"           Value="8,4"/>
+        <Setter Property="Cursor"            Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource AppButtonHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource AppButtonPressBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Opacity" Value="0.45"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ToggleButton (selector de meses en Carga) -->
+    <Style TargetType="ToggleButton">
+        <Setter Property="FontSize"        Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Background"      Value="{DynamicResource AppButtonBgBrush}"/>
+        <Setter Property="Foreground"      Value="{DynamicResource AppButtonFgBrush}"/>
+        <Setter Property="BorderBrush"     Value="{DynamicResource AppBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding"         Value="4,2"/>
+        <Setter Property="Cursor"          Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource AppButtonPressBrush}"/>
+                            <Setter TargetName="Border" Property="BorderBrush"
+                                    Value="{DynamicResource AppForegroundMutedBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource AppButtonHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Opacity" Value="0.45"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- CheckBox -->
     <Style TargetType="CheckBox">
         <Setter Property="FontSize"   Value="{DynamicResource FontSizeBase}"/>
         <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
     </Style>
 
-    <Style TargetType="DatePicker">
-        <Setter Property="FontSize"   Value="{DynamicResource FontSizeBase}"/>
-        <Setter Property="Background" Value="{DynamicResource AppInputBgBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
-    </Style>
-
+    <!-- Slider -->
     <Style TargetType="Slider">
         <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
     </Style>
 
+    <!-- =====================================================
+         DATAGRID
+         ===================================================== -->
     <Style TargetType="DataGrid">
-        <Setter Property="FontSize"            Value="{DynamicResource FontSizeBase}"/>
-        <Setter Property="Background"          Value="{DynamicResource AppBackgroundBrush}"/>
-        <Setter Property="Foreground"          Value="{DynamicResource AppForegroundBrush}"/>
-        <Setter Property="RowBackground"       Value="{DynamicResource AppBackgroundBrush}"/>
+        <Setter Property="FontSize"                 Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Background"               Value="{DynamicResource AppBackgroundBrush}"/>
+        <Setter Property="Foreground"               Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="RowBackground"            Value="{DynamicResource AppBackgroundBrush}"/>
         <Setter Property="AlternatingRowBackground" Value="{DynamicResource AppSurfaceBrush}"/>
-        <Setter Property="BorderBrush"         Value="{DynamicResource AppBorderBrush}"/>
+        <Setter Property="BorderBrush"              Value="{DynamicResource AppBorderBrush}"/>
         <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource AppBorderBrush}"/>
         <Setter Property="VerticalGridLinesBrush"   Value="{DynamicResource AppBorderBrush}"/>
     </Style>
@@ -98,6 +213,12 @@
 
     <Style TargetType="DataGridCell">
         <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}"/>
+        <Setter Property="Foreground"  Value="{DynamicResource AppForegroundBrush}"/>
+    </Style>
+
+    <!-- ScrollViewer -->
+    <Style TargetType="ScrollViewer">
+        <Setter Property="Background" Value="{DynamicResource AppBackgroundBrush}"/>
     </Style>
 
 </ResourceDictionary>
