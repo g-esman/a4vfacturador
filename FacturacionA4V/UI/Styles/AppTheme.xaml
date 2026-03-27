@@ -352,6 +352,17 @@
                         </Style>
 
                     </Style.Resources>
+
+                    <!-- Template minimal: CalendarItem sin Style explícito,
+                         así toma el estilo implícito de Style.Resources arriba -->
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Calendar">
+                                <CalendarItem x:Name="PART_CalendarItem"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
                 </Style>
             </Setter.Value>
         </Setter>
