@@ -1,6 +1,5 @@
-﻿using ClosedXML.Excel;
+using ClosedXML.Excel;
 using FacturacionA4V.Domain;
-using Google.Apis.Drive.v3.Data;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using System.Globalization;
@@ -11,7 +10,7 @@ namespace FacturacionA4V.Infrastructure;
 public sealed class ExcelFacturacionRepository : IFacturacionRepository
 {
     private readonly string _filePath;
-    private GoogleDriveFileService _drive;
+    private readonly IDriveFileService _drive;
 
     public ExcelFacturacionRepository(string basePath)
     {
@@ -24,6 +23,13 @@ public sealed class ExcelFacturacionRepository : IFacturacionRepository
         _drive = new GoogleDriveFileService(
             driveSettings.ServiceAccountPath,
             driveSettings.FileId);
+    }
+
+    // Constructor interno para tests — evita dependencia de App.Configuration
+    internal ExcelFacturacionRepository(string basePath, IDriveFileService drive)
+    {
+        _filePath = Path.Combine(basePath, "Facturacion.xlsx");
+        _drive = drive;
     }
 
     private void UploadToDrive()
@@ -151,10 +157,10 @@ public sealed class ExcelFacturacionRepository : IFacturacionRepository
                 Debug.WriteLine($"Error cargando desde Drive: {ex.Message}");
             }
         });
-      
+
     }
 
-    private static DateTime? TryParseFecha(IXLCell cell)
+    internal static DateTime? TryParseFecha(IXLCell cell)
     {
         // 1️⃣ Excel ya lo tiene como DateTime
         if (cell.DataType == XLDataType.DateTime)
@@ -177,7 +183,7 @@ public sealed class ExcelFacturacionRepository : IFacturacionRepository
         return null;
     }
 
-    private static decimal? TryParseMontoAR(string raw)
+    internal static decimal? TryParseMontoAR(string raw)
     {
         if (decimal.TryParse(
             raw,
@@ -189,7 +195,7 @@ public sealed class ExcelFacturacionRepository : IFacturacionRepository
         return null;
     }
 
-    private static EstadoFactura CalcularEstado(
+    internal static EstadoFactura CalcularEstado(
         string nroFactura,
         DateTime? fechaFactura,
         DateTime? fechaPago)

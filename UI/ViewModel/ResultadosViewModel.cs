@@ -183,6 +183,8 @@ public sealed class ResultadosViewModel : ObservableObject
 
         foreach (var item in _all)
         {
+            item.PropertyChanged += OnItemPropertyChanged; // BUG-001 fix: suscribir acá, no en el loop separado
+
             if (!AuspiciantesDisponibles.Contains(item.Auspiciante))
                 AuspiciantesDisponibles.Add(item.Auspiciante);
 
@@ -197,17 +199,7 @@ public sealed class ResultadosViewModel : ObservableObject
                 AniosDisponibles.Add(year);
         }
 
-
-        AplicarFiltros();
-        Filtrados.Clear();
-
-        foreach (var item in _repo.ReadAll())
-        {
-            item.PropertyChanged += OnItemPropertyChanged;
-            Filtrados.Add(item);
-        }
-
-        RecalcularTotales();
+        AplicarFiltros(); // maneja Filtrados + RecalcularTotales internamente
         ((RelayCommand)AgregarFacturaCommand).RaiseCanExecuteChanged();
     }
 
