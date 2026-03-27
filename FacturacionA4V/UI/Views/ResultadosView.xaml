@@ -197,6 +197,13 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+            <!-- CONFIRMACIÓN -->
+            <TextBlock Text="{Binding Confirmacion}"
+                       Foreground="#4CAF50"
+                       FontWeight="SemiBold"
+                       Visibility="{Binding HayConfirmacion, Converter={StaticResource BoolToVisibilityConverter}}"
+                       Margin="0,0,0,4"/>
+
             <!-- ACCIONES -->
             <StackPanel Orientation="Horizontal">
                 <Button Content="Agregar factura"

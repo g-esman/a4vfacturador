@@ -1,6 +1,7 @@
 ﻿using FacturacionA4V.Domain;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace FacturacionA4V.UI.ViewModel;
 
@@ -8,6 +9,14 @@ public sealed class CargaViewModel : ObservableObject
 {
     private readonly DatosInicioCache _cache;
     private readonly IFacturacionRepository _repo;
+    private readonly DispatcherTimer _confirmTimer;
+
+    private bool _isProcesado;
+    public bool IsProcesado
+    {
+        get => _isProcesado;
+        private set { _isProcesado = value; OnPropertyChanged(); }
+    }
     public ICommand ToggleMesCommand { get; }
 
     public ObservableCollection<MesItem> Meses { get; } =
@@ -101,6 +110,10 @@ public sealed class CargaViewModel : ObservableObject
     {
         _cache = cache;
         _repo = repo;
+
+        _confirmTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
+        _confirmTimer.Tick += (_, _) => { _confirmTimer.Stop(); IsProcesado = false; };
+
         ProcesarCommand = new RelayCommand(Procesar, PuedeProcesar);
         ToggleMesCommand = new RelayCommand<string>(ToggleMes);
         Auspiciantes = new ObservableCollection<string>(_cache.Auspiciantes);
@@ -151,6 +164,9 @@ public sealed class CargaViewModel : ObservableObject
         _repo.InsertMany(rows);
         Limpiar();
         ((RelayCommand)ProcesarCommand).RaiseCanExecuteChanged();
+        IsProcesado = true;
+        _confirmTimer.Stop();
+        _confirmTimer.Start();
     }
 
     private void Limpiar()

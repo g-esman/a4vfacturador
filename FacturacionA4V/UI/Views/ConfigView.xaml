@@ -73,8 +73,33 @@
                           IsChecked="{Binding DarkMode}"/>
             </Border>
 
+            <!-- SECCIÓN: Vista previa -->
+            <TextBlock Text="VISTA PREVIA"
+                       FontSize="{DynamicResource FontSizeSmall}"
+                       Foreground="{DynamicResource AppForegroundMutedBrush}"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,12"/>
+
+            <Border Background="{DynamicResource AppSurfaceBrush}"
+                    CornerRadius="6" Padding="16" Margin="0,0,0,32">
+                <StackPanel>
+                    <TextBlock FontSize="{DynamicResource FontSizeLarge}" FontWeight="Bold"
+                               Text="Título de pantalla (Grande)"/>
+                    <TextBlock FontSize="{DynamicResource FontSizeMedium}"
+                               Margin="0,8,0,0"
+                               Text="Encabezado de columna (Medio)"/>
+                    <TextBlock FontSize="{DynamicResource FontSizeBase}"
+                               Margin="0,8,0,0"
+                               Text="Texto general del cuerpo (Base)"/>
+                    <TextBlock FontSize="{DynamicResource FontSizeSmall}"
+                               Foreground="{DynamicResource AppForegroundMutedBrush}"
+                               Margin="0,8,0,0"
+                               Text="Label o hint pequeño (Pequeño)"/>
+                </StackPanel>
+            </Border>
+
             <!-- ACCIONES -->
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <Button Content="Guardar"
                         Command="{Binding GuardarCommand}"
                         Padding="20,8"/>
@@ -82,6 +107,12 @@
                         Command="{Binding RestaurarCommand}"
                         Margin="12,0,0,0"
                         Padding="20,8"/>
+                <TextBlock Text="✓ Configuración guardada"
+                           Foreground="#4CAF50"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           Margin="16,0,0,0"
+                           Visibility="{Binding IsGuardado, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </StackPanel>
 
             <TextBlock Text="Los cambios se aplican en tiempo real. Guardar los persiste para la próxima vez."
