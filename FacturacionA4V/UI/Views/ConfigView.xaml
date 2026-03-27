@@ -1,0 +1,95 @@
+<UserControl x:Class="FacturacionA4V.UI.Views.ConfigView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="32,24" MaxWidth="480" HorizontalAlignment="Left">
+
+            <!-- TÍTULO -->
+            <TextBlock Text="Configuración"
+                       FontSize="{DynamicResource FontSizeLarge}"
+                       FontWeight="Bold"
+                       Margin="0,0,0,24"/>
+
+            <!-- SECCIÓN: Tipografía -->
+            <TextBlock Text="TIPOGRAFÍA"
+                       FontSize="{DynamicResource FontSizeSmall}"
+                       Foreground="{DynamicResource AppForegroundMutedBrush}"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,12"/>
+
+            <Border Background="{DynamicResource AppSurfaceBrush}"
+                    CornerRadius="6" Padding="16" Margin="0,0,0,24">
+                <StackPanel>
+
+                    <TextBlock Text="Texto pequeño (labels y hints)" Margin="0,0,0,4"/>
+                    <DockPanel Margin="0,0,0,12">
+                        <TextBlock Text="{Binding FontSizeSmall, StringFormat={}{0:0}px}"
+                                   DockPanel.Dock="Right" Width="36" TextAlignment="Right"
+                                   Foreground="{DynamicResource AppForegroundMutedBrush}"/>
+                        <Slider Value="{Binding FontSizeSmall}" Minimum="9" Maximum="18" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                    </DockPanel>
+
+                    <TextBlock Text="Texto general" Margin="0,0,0,4"/>
+                    <DockPanel Margin="0,0,0,12">
+                        <TextBlock Text="{Binding FontSizeBase, StringFormat={}{0:0}px}"
+                                   DockPanel.Dock="Right" Width="36" TextAlignment="Right"
+                                   Foreground="{DynamicResource AppForegroundMutedBrush}"/>
+                        <Slider Value="{Binding FontSizeBase}" Minimum="10" Maximum="22" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                    </DockPanel>
+
+                    <TextBlock Text="Encabezados de columna" Margin="0,0,0,4"/>
+                    <DockPanel Margin="0,0,0,12">
+                        <TextBlock Text="{Binding FontSizeMedium, StringFormat={}{0:0}px}"
+                                   DockPanel.Dock="Right" Width="36" TextAlignment="Right"
+                                   Foreground="{DynamicResource AppForegroundMutedBrush}"/>
+                        <Slider Value="{Binding FontSizeMedium}" Minimum="10" Maximum="22" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                    </DockPanel>
+
+                    <TextBlock Text="Títulos" Margin="0,0,0,4"/>
+                    <DockPanel>
+                        <TextBlock Text="{Binding FontSizeLarge, StringFormat={}{0:0}px}"
+                                   DockPanel.Dock="Right" Width="36" TextAlignment="Right"
+                                   Foreground="{DynamicResource AppForegroundMutedBrush}"/>
+                        <Slider Value="{Binding FontSizeLarge}" Minimum="12" Maximum="26" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                    </DockPanel>
+
+                </StackPanel>
+            </Border>
+
+            <!-- SECCIÓN: Tema -->
+            <TextBlock Text="TEMA"
+                       FontSize="{DynamicResource FontSizeSmall}"
+                       Foreground="{DynamicResource AppForegroundMutedBrush}"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,12"/>
+
+            <Border Background="{DynamicResource AppSurfaceBrush}"
+                    CornerRadius="6" Padding="16" Margin="0,0,0,32">
+                <CheckBox Content="Modo oscuro"
+                          IsChecked="{Binding DarkMode}"/>
+            </Border>
+
+            <!-- ACCIONES -->
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Guardar"
+                        Command="{Binding GuardarCommand}"
+                        Padding="20,8"/>
+                <Button Content="Restaurar valores por defecto"
+                        Command="{Binding RestaurarCommand}"
+                        Margin="12,0,0,0"
+                        Padding="20,8"/>
+            </StackPanel>
+
+            <TextBlock Text="Los cambios se aplican en tiempo real. Guardar los persiste para la próxima vez."
+                       Foreground="{DynamicResource AppForegroundMutedBrush}"
+                       FontSize="{DynamicResource FontSizeSmall}"
+                       TextWrapping="Wrap"
+                       Margin="0,12,0,0"/>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

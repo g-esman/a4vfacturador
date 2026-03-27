@@ -3,48 +3,101 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <!-- =====================================================
-         TAMAÑOS DE FUENTE — modificar solo aquí
+         TAMAÑOS DE FUENTE — valores por defecto
+         El ThemeService los sobreescribe en runtime con los
+         valores guardados en user-settings.json
          ===================================================== -->
-    <sys:Double x:Key="FontSizeSmall">12</sys:Double>   <!-- labels de filtro, hints    -->
-    <sys:Double x:Key="FontSizeBase">14</sys:Double>    <!-- texto general               -->
-    <sys:Double x:Key="FontSizeMedium">15</sys:Double>  <!-- encabezados de columna      -->
-    <sys:Double x:Key="FontSizeLarge">16</sys:Double>   <!-- títulos de sección          -->
+    <sys:Double x:Key="FontSizeSmall">12</sys:Double>
+    <sys:Double x:Key="FontSizeBase">14</sys:Double>
+    <sys:Double x:Key="FontSizeMedium">15</sys:Double>
+    <sys:Double x:Key="FontSizeLarge">16</sys:Double>
 
     <!-- =====================================================
-         ESTILOS BASE — heredan automáticamente en toda la app
+         COLORES — valores por defecto (modo claro)
+         El ThemeService los sobreescribe al cambiar el tema
+         ===================================================== -->
+    <SolidColorBrush x:Key="AppBackgroundBrush"      Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="AppSurfaceBrush"         Color="#F5F5F5"/>
+    <SolidColorBrush x:Key="AppSurfaceAltBrush"      Color="#EBEBEB"/>
+    <SolidColorBrush x:Key="AppForegroundBrush"      Color="#1A1A1A"/>
+    <SolidColorBrush x:Key="AppForegroundMutedBrush" Color="#666666"/>
+    <SolidColorBrush x:Key="AppBorderBrush"          Color="#DDDDDD"/>
+    <SolidColorBrush x:Key="AppInputBgBrush"         Color="#FFFFFF"/>
+
+    <!-- =====================================================
+         ESTILOS BASE
          ===================================================== -->
 
+    <Style TargetType="Window">
+        <Setter Property="Background" Value="{DynamicResource AppBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
+    </Style>
+
     <Style TargetType="TextBlock">
-        <Setter Property="FontSize" Value="{StaticResource FontSizeBase}"/>
+        <Setter Property="FontSize"    Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Foreground"  Value="{DynamicResource AppForegroundBrush}"/>
     </Style>
 
     <Style TargetType="TextBox">
-        <Setter Property="FontSize" Value="{StaticResource FontSizeBase}"/>
+        <Setter Property="FontSize"   Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Background" Value="{DynamicResource AppInputBgBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource AppForegroundBrush}"/>
     </Style>
 
     <Style TargetType="ComboBox">
-        <Setter Property="FontSize" Value="{StaticResource FontSizeBase}"/>
+        <Setter Property="FontSize"   Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Background" Value="{DynamicResource AppInputBgBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}"/>
     </Style>
 
     <Style TargetType="Button">
-        <Setter Property="FontSize" Value="{StaticResource FontSizeBase}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeBase}"/>
     </Style>
 
     <Style TargetType="CheckBox">
-        <Setter Property="FontSize" Value="{StaticResource FontSizeBase}"/>
+        <Setter Property="FontSize"   Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
     </Style>
 
     <Style TargetType="DatePicker">
-        <Setter Property="FontSize" Value="{StaticResource FontSizeBase}"/>
+        <Setter Property="FontSize"   Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Background" Value="{DynamicResource AppInputBgBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
+    </Style>
+
+    <Style TargetType="Slider">
+        <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
     </Style>
 
     <Style TargetType="DataGrid">
-        <Setter Property="FontSize" Value="{StaticResource FontSizeBase}"/>
+        <Setter Property="FontSize"            Value="{DynamicResource FontSizeBase}"/>
+        <Setter Property="Background"          Value="{DynamicResource AppBackgroundBrush}"/>
+        <Setter Property="Foreground"          Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="RowBackground"       Value="{DynamicResource AppBackgroundBrush}"/>
+        <Setter Property="AlternatingRowBackground" Value="{DynamicResource AppSurfaceBrush}"/>
+        <Setter Property="BorderBrush"         Value="{DynamicResource AppBorderBrush}"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource AppBorderBrush}"/>
+        <Setter Property="VerticalGridLinesBrush"   Value="{DynamicResource AppBorderBrush}"/>
     </Style>
 
     <Style TargetType="DataGridColumnHeader">
-        <Setter Property="FontSize" Value="{StaticResource FontSizeMedium}"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize"    Value="{DynamicResource FontSizeMedium}"/>
+        <Setter Property="FontWeight"  Value="SemiBold"/>
+        <Setter Property="Background"  Value="{DynamicResource AppSurfaceAltBrush}"/>
+        <Setter Property="Foreground"  Value="{DynamicResource AppForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}"/>
+        <Setter Property="Padding"     Value="8,4"/>
+    </Style>
+
+    <Style TargetType="DataGridRow">
+        <Setter Property="Foreground" Value="{DynamicResource AppForegroundBrush}"/>
+    </Style>
+
+    <Style TargetType="DataGridCell">
+        <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}"/>
     </Style>
 
 </ResourceDictionary>
