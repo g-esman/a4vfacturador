@@ -40,6 +40,10 @@
                 CornerRadius="4">
 
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="180"/>
                     <ColumnDefinition Width="180"/>
@@ -96,6 +100,19 @@
                             Command="{Binding LimpiarFiltrosCommand}"
                             Margin="4,18,0,0"
                             Padding="12,6"/>
+                </StackPanel>
+
+                <!-- FILA 2: Filtros por fecha de pago -->
+                <StackPanel Grid.Row="1" Margin="0,8,0,0">
+                    <TextBlock Text="Fecha pago desde" FontSize="11" Opacity="0.7"/>
+                    <DatePicker SelectedDate="{Binding FechaPagoDesde}"
+                                Height="28"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="1" Margin="8,8,0,0">
+                    <TextBlock Text="Fecha pago hasta" FontSize="11" Opacity="0.7"/>
+                    <DatePicker SelectedDate="{Binding FechaPagoHasta}"
+                                Height="28"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -160,10 +177,10 @@
                 <DataGridTextColumn Header="Mes/Año" Binding="{Binding MesAnio}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="N° Factura" Binding="{Binding NroFactura}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Fecha Factura"
-                                    Binding="{Binding FechaFactura, StringFormat=dd/MM/yyyy}"
+                                    Binding="{Binding FechaFactura}"
                                     IsReadOnly="True"/>
                 <DataGridTextColumn Header="Fecha Pago"
-                                    Binding="{Binding FechaPago, StringFormat=dd/MM/yyyy}"
+                                    Binding="{Binding FechaPago}"
                                     IsReadOnly="True"/>
                 <DataGridTextColumn Header="Nota" Binding="{Binding Nota}" IsReadOnly="True"/>
 
